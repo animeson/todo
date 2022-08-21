@@ -14,7 +14,6 @@ import java.util.List;
 @Service
 @Slf4j
 @AllArgsConstructor
-@CrossOrigin("*")
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
