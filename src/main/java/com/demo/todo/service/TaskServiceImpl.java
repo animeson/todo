@@ -7,12 +7,14 @@ import com.demo.todo.repository.TaskRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.time.LocalDate;
 import java.util.List;
 @Service
 @Slf4j
 @AllArgsConstructor
+@CrossOrigin("*")
 public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
 
@@ -24,7 +26,12 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task getTaskById(Long id) {
-        return taskRepository.getTaskById(id);
+        if(!taskRepository.existsById(id)){
+            log.error("no id = {}", id);
+            return new Task();
+        } else {
+            return taskRepository.getTaskById(id);
+        }
     }
 
     @Override
