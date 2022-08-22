@@ -18,25 +18,33 @@ public class TaskController {
     public ResponseEntity<?> getAllTask() {
         return ResponseEntity.ok().body(taskService.getAllTask());
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getTaskById(@PathVariable Long id) {
         return ResponseEntity.ok().body(taskService.getTaskById(id));
+
     }
 
     @PatchMapping("/{id}/edit")
     public ResponseEntity<?> editTask(@PathVariable Long id,
-                                      @RequestBody TaskDto taskDto){
+                                      @RequestBody TaskDto taskDto) {
         return ResponseEntity.ok().body(taskService.editTaskById(id, taskDto));
     }
 
     @PostMapping
-    public ResponseEntity<?> createTask(@RequestBody TaskDto taskDto){
+    public ResponseEntity<?> createTask(@RequestBody TaskDto taskDto) {
         return ResponseEntity.ok().body(taskService.saveTask(taskDto));
     }
 
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<?> deleteTask(@PathVariable Long id) {
         taskService.deleteTaskById(id);
-        return ResponseEntity.ok().body("Task delete");
+        return ResponseEntity.ok().body("Task id= "+ id+" delete");
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteAll(){
+        taskService.deleteAll();
+        return ResponseEntity.ok().body("Tasks delete");
     }
 }
