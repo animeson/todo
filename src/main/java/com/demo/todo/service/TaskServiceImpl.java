@@ -43,6 +43,11 @@ public class TaskServiceImpl implements TaskService {
             throw new ApiRequestException("the Task cannot be empty field");
         } else {
             Task task = new Task();
+            if (taskDto.getName() != null && !taskDto.getName().equals("")) {
+                task.setName(taskDto.getName());
+            } else {
+                task.setName(taskDto.getTask().split(" ",2)[0]);
+            }
             task.setTask(taskDto.getTask());
             task.setCreationDate(LocalDate.now());
             return taskRepository.save(task);
@@ -63,11 +68,16 @@ public class TaskServiceImpl implements TaskService {
     public Task editTaskById(Long id, TaskDto taskDto) {
         Task editTask = taskRepository.getTaskById(id);
         if (taskDto.getTask() == null || taskDto.getTask().equals("") ||
-                !taskRepository.existsById(id) ) {
+                !taskRepository.existsById(id)) {
 
             log.error("Invalid data");
             throw new ApiRequestException("Invalid data");
         } else {
+            if (taskDto.getName() != null && !taskDto.getName().equals("")) {
+                editTask.setName(taskDto.getName());
+            } else {
+                log.error("Invalid data");
+            }
             editTask.setTask(taskDto.getTask());
             return taskRepository.save(editTask);
         }
